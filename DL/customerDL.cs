@@ -9,15 +9,49 @@ namespace DL
 {
     public class customerDL: ICustomerDL
     {
-        MyTravelAgentDBContext myTravelAgentDBContext;
-        public customerDL(MyTravelAgentDBContext myTravelAgentDBContext)
+        MyTravelAgentContext myTravelAgentContext;
+        public customerDL(MyTravelAgentContext myTravelAgentContext)
         {
-            this.myTravelAgentDBContext = myTravelAgentDBContext;
+            this.myTravelAgentContext = myTravelAgentContext;
+        }
+        public async Task<List<Customer>> getAllCustomers()
+        { 
+            return myTravelAgentContext.Customers.ToList();
         }
 
-        public async Task<List<Customer>> getAllCustomers()
+        public async Task<Customer> getCustomer(int id)
         {
-            return null;
+            return await myTravelAgentContext.Customers.FindAsync(id);
+        }
+
+        public async void updateCustomer(Customer customerToUpdate)
+        {
+            Customer customer = myTravelAgentContext.Customers.Find(customerToUpdate.Id);
+            Customer c = new Customer()
+            {
+                Id = 2,
+                FirstName = "c",
+                LastName = "f"
+            };
+            if (customer == null)
+            {
+                throw new Exception("no customer with id " + customerToUpdate.Id);
+            }
+            myTravelAgentContext.Entry(customer).CurrentValues.SetValues(c);
+            await myTravelAgentContext.SaveChangesAsync();
+        }
+        public async Task<int> addNewCustomer(Customer customerToAdd)
+        { 
+            myTravelAgentContext.Customers.AddAsync(customerToAdd);
+            myTravelAgentContext.SaveChanges();
+            return customerToAdd.Id;
+        }
+
+        public void deleteCustomer(int id)
+        {
+            Customer toDelete = myTravelAgentContext.Customers.Find(id);
+            myTravelAgentContext.Customers.Remove(toDelete);
+            myTravelAgentContext.SaveChanges();
         }
     }
 }

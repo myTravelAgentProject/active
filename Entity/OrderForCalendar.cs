@@ -15,5 +15,6 @@ namespace Entity
         public DateTime checkOutDate { get; set; }
         public TimeSpan? earlyCheckIn { get; set; }
         public TimeSpan? lateCheckOut { get; set; }
+        
     }
 }

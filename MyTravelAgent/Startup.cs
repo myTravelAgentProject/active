@@ -29,16 +29,19 @@ namespace MyTravelAgent
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IOrderBL, orderBL>();
-            services.AddScoped<IOrderDL, orderDL>();
-       
+            services.AddScoped<IOrderBL,orderBL>();
+            services.AddScoped<IOrderDL,orderDL>();
+            services.AddScoped<ICustomerBL,customerBL>();
+            services.AddScoped<ICustomerDL,customerDL>();
+            services.AddScoped<IAlertBL,AlertBL>();
+            services.AddScoped<IAlertDL,AlertDL>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyTravelAgentDB", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyTravelAgent", Version = "v1" });
             });
-            services.AddDbContext<MyTravelAgentDBContext>(options => options.UseSqlServer(
-               "Server=DESKTOP-LIH23BI\\SQLEXPRESS;Database=MyTravelAgentDB;Trusted_Connection=True;"), ServiceLifetime.Scoped);
+            services.AddDbContext<MyTravelAgentContext>(options => options.UseSqlServer(
+               "Server=DESKTOP-LIH23BI\\SQLEXPRESS;Database=MyTravelAgent;Trusted_Connection=True;"), ServiceLifetime.Scoped);
 
         }
 

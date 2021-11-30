@@ -7,22 +7,22 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace DL
 {
-    public partial class MyTravelAgentDBContext : DbContext
+    public partial class MyTravelAgentContext : DbContext
     {
-        public MyTravelAgentDBContext()
+        public MyTravelAgentContext()
         {
         }
 
-        public MyTravelAgentDBContext(DbContextOptions<MyTravelAgentDBContext> options)
+        public MyTravelAgentContext(DbContextOptions<MyTravelAgentContext> options)
             : base(options)
         {
         }
 
         public virtual DbSet<Admin> Admins { get; set; }
+        public virtual DbSet<Alert> Alerts { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<CustomerChild> CustomerChildren { get; set; }
         public virtual DbSet<Hotel> Hotels { get; set; }
-        public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Request> Requests { get; set; }
         public virtual DbSet<Status> Statuses { get; set; }
@@ -32,7 +32,7 @@ namespace DL
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-LIH23BI\\SQLEXPRESS;Database=MyTravelAgentDB;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-LIH23BI\\SQLEXPRESS;Database=MyTravelAgent;Trusted_Connection=True;");
             }
         }
 
@@ -48,15 +48,27 @@ namespace DL
 
                 entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasMaxLength(10)
-                    .HasColumnName("NAME")
-                    .IsFixedLength(true);
+                    .HasMaxLength(50)
+                    .HasColumnName("NAME");
 
                 entity.Property(e => e.Password)
                     .IsRequired()
-                    .HasMaxLength(10)
+                    .HasMaxLength(15)
                     .HasColumnName("PASSWORD")
                     .IsFixedLength(true);
+            });
+
+            modelBuilder.Entity<Alert>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Date)
+                    .HasColumnType("date")
+                    .HasColumnName("DATE");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(50)
+                    .HasColumnName("DESCRIPTION");
             });
 
             modelBuilder.Entity<Customer>(entity =>
@@ -64,28 +76,28 @@ namespace DL
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Address)
-                    .HasMaxLength(10)
-                    .HasColumnName("ADDRESS")
-                    .IsFixedLength(true);
+                    .HasMaxLength(50)
+                    .HasColumnName("ADDRESS");
+
+                entity.Property(e => e.Comments)
+                    .HasColumnType("text")
+                    .HasColumnName("COMMENTS");
 
                 entity.Property(e => e.EmailAddress)
-                    .HasMaxLength(10)
-                    .HasColumnName("EMAIL_ADDRESS")
-                    .IsFixedLength(true);
+                    .HasMaxLength(50)
+                    .HasColumnName("EMAIL_ADDRESS");
 
                 entity.Property(e => e.FirstName)
                     .IsRequired()
-                    .HasMaxLength(10)
-                    .HasColumnName("FIRST_NAME")
-                    .IsFixedLength(true);
+                    .HasMaxLength(50)
+                    .HasColumnName("FIRST_NAME");
 
                 entity.Property(e => e.HighFloor).HasColumnName("HIGH_FLOOR");
 
                 entity.Property(e => e.LastName)
                     .IsRequired()
-                    .HasMaxLength(10)
-                    .HasColumnName("LAST_NAME")
-                    .IsFixedLength(true);
+                    .HasMaxLength(50)
+                    .HasColumnName("LAST_NAME");
 
                 entity.Property(e => e.MultipleRooms).HasColumnName("MULTIPLE_ROOMS");
 
@@ -127,43 +139,57 @@ namespace DL
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
+                entity.Property(e => e.Accessibility)
+                    .HasMaxLength(255)
+                    .HasColumnName("ACCESSIBILITY");
+
                 entity.Property(e => e.Address)
                     .IsRequired()
-                    .HasMaxLength(10)
-                    .HasColumnName("ADDRESS")
-                    .IsFixedLength(true);
+                    .HasMaxLength(255)
+                    .HasColumnName("ADDRESS");
 
-                entity.Property(e => e.EmailAddress)
-                    .HasMaxLength(10)
-                    .HasColumnName("EMAIL_ADDRESS")
-                    .IsFixedLength(true);
+                entity.Property(e => e.City)
+                    .HasMaxLength(255)
+                    .HasColumnName("CITY");
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(255)
+                    .HasColumnName("EMAIL");
+
+                entity.Property(e => e.Kosher)
+                    .HasMaxLength(255)
+                    .HasColumnName("KOSHER");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasMaxLength(10)
-                    .HasColumnName("NAME")
-                    .IsFixedLength(true);
-            });
+                    .HasMaxLength(255)
+                    .HasColumnName("NAME");
 
-            modelBuilder.Entity<Message>(entity =>
-            {
-                entity.ToTable("Message");
+                entity.Property(e => e.Parking)
+                    .HasMaxLength(255)
+                    .HasColumnName("PARKING");
 
-                entity.Property(e => e.Id).HasColumnName("ID");
+                entity.Property(e => e.Phone)
+                    .HasMaxLength(255)
+                    .HasColumnName("PHONE");
 
-                entity.Property(e => e.AlredyRead).HasColumnName("ALREDY_READ");
+                entity.Property(e => e.PtoductUrl)
+                    .HasMaxLength(255)
+                    .HasColumnName("PTODUCT_URL");
 
-                entity.Property(e => e.CustomerId).HasColumnName("CUSTOMER_ID");
+                entity.Property(e => e.Region)
+                    .HasMaxLength(255)
+                    .HasColumnName("REGION");
 
-                entity.Property(e => e.Details)
-                    .HasColumnType("text")
-                    .HasColumnName("DETAILS");
+                entity.Property(e => e.SwimmingPool)
+                    .HasMaxLength(255)
+                    .HasColumnName("SWIMMING_POOL");
 
-                entity.HasOne(d => d.Customer)
-                    .WithMany(p => p.Messages)
-                    .HasForeignKey(d => d.CustomerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Message_Customers");
+                entity.Property(e => e.Url)
+                    .HasMaxLength(255)
+                    .HasColumnName("URL");
+
+                entity.Property(e => e.WiFi).HasMaxLength(255);
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -185,6 +211,10 @@ namespace DL
                 entity.Property(e => e.CheckOutDate)
                     .HasColumnType("date")
                     .HasColumnName("CHECK_OUT_DATE");
+
+                entity.Property(e => e.Comments)
+                    .HasColumnType("text")
+                    .HasColumnName("COMMENTS");
 
                 entity.Property(e => e.CostPrice).HasColumnName("COST_PRICE");
 
@@ -222,7 +252,7 @@ namespace DL
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.HotelId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Orders_Hotels");
+                    .HasConstraintName("FK_Orders_Hotels22");
 
                 entity.HasOne(d => d.StatusCodeNavigation)
                     .WithMany(p => p.Orders)

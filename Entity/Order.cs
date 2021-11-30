@@ -26,6 +26,7 @@ namespace Entity
         public int? NewPrice { get; set; }
         public bool? Change { get; set; }
         public int HotelId { get; set; }
+        public string Comments { get; set; }
 
         public virtual Customer Customer { get; set; }
         public virtual Hotel Hotel { get; set; }

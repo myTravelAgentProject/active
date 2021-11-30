@@ -10,7 +10,6 @@ namespace Entity
         public Customer()
         {
             CustomerChildren = new HashSet<CustomerChild>();
-            Messages = new HashSet<Message>();
             Orders = new HashSet<Order>();
             Requests = new HashSet<Request>();
         }
@@ -27,9 +26,9 @@ namespace Entity
         public string EmailAddress { get; set; }
         public string Address { get; set; }
         public string PhoneNumber { get; set; }
+        public string Comments { get; set; }
 
         public virtual ICollection<CustomerChild> CustomerChildren { get; set; }
-        public virtual ICollection<Message> Messages { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Request> Requests { get; set; }
     }

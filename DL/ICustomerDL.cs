@@ -10,5 +10,9 @@ namespace DL
     public interface ICustomerDL
     {
         public Task<List<Customer>> getAllCustomers();
+        public Task<Customer> getCustomer(int id);
+        public void updateCustomer(Customer customerToUpdate);
+        public Task<int> addNewCustomer(Customer customerToAdd);
+        public void deleteCustomer(int id);
     }
 }

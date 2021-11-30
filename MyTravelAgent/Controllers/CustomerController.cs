@@ -28,27 +28,30 @@ namespace MyTravelAgent.Controllers
 
         // GET api/<CustomerController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<Customer> Get(int id)
         {
-            return "value";
+            return await customerBL.getCustomer(id); 
         }
 
         // POST api/<CustomerController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<int> Post([FromBody] Customer customerToAdd)
         {
+            return await customerBL.addNewCustomer(customerToAdd);
         }
 
-        // PUT api/<CustomerController>/5
+        //PUT api/<CustomerController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id,[FromBody]Customer customerToUpdate)
         {
+            customerBL.updateCustomer(customerToUpdate);
         }
 
         // DELETE api/<CustomerController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            customerBL.deleteCustomer(id);
         }
     }
 }
