@@ -36,7 +36,7 @@ namespace BL
             return await alertDL.insertAlert(newAlert);
         }
 
-        public void updateAlert(Alert alertToUpdate)
+        public void updateAlert(Alert alertToUpdate)     
         {
             alertDL.updateAlert(alertToUpdate);
         }
